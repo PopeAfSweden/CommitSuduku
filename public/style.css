@@ -1,0 +1,238 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b0d12;
+  --panel: #151922;
+  --panel-2: #1d2330;
+  --line: #2a3242;
+  --line-strong: #8b93a7;
+  --text: #e7eaf0;
+  --muted: #8a93a6;
+  --accent: #a78bfa;
+  --accent-2: #f472b6;
+  --bad: #ef4444;
+  --emoji: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at 20% 0%, #1a1530 0%, var(--bg) 45%) fixed, var(--bg);
+  color: var(--text);
+  font: 15px/1.4 system-ui, "Segoe UI", sans-serif;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+h1 {
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: -0.5px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+h1 .logo { color: initial; font-family: var(--emoji); }
+
+.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+.controls label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+
+select, input, button {
+  font: inherit;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 10px;
+}
+
+select:focus, input:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+button { cursor: pointer; }
+button:hover { border-color: var(--accent); }
+#theme { font-family: system-ui, var(--emoji); }
+
+main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1000px) {
+  main { grid-template-columns: 1fr 340px; align-items: start; }
+}
+
+.play {
+  --board-size: max(280px, min(94vw, calc(100vh - 320px), 680px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.status {
+  display: flex;
+  justify-content: space-between;
+  width: var(--board-size);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+#timer { font-size: 20px; color: var(--text); font-weight: 600; }
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--n, 9), 1fr);
+  width: var(--board-size);
+  aspect-ratio: 1;
+  border: 2px solid var(--line-strong);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--panel);
+  user-select: none;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  font-family: var(--emoji);
+  font-size: calc(var(--board-size) / var(--n, 9) * 0.6);
+  line-height: 1;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.cell.box-r { border-right: 2px solid var(--line-strong); }
+.cell.box-b { border-bottom: 2px solid var(--line-strong); }
+.cell.given { background: var(--panel-2); cursor: default; }
+.cell.peer { background: rgba(167, 139, 250, 0.08); }
+.cell.given.peer { background: #242a3b; }
+.cell.same { background: rgba(167, 139, 250, 0.28); }
+.cell.selected { box-shadow: inset 0 0 0 2px var(--accent); background: rgba(167, 139, 250, 0.18); }
+.cell.wrong { background: rgba(239, 68, 68, 0.38); animation: shake 0.4s; }
+
+@keyframes shake {
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+.palette {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  max-width: var(--board-size);
+}
+
+.palette button {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  font-family: var(--emoji);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.palette button.done { opacity: 0.3; }
+
+.judge {
+  margin-top: 4px;
+  padding: 14px 44px;
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(90deg, #7c3aed, #db2777);
+  box-shadow: 0 6px 24px rgba(219, 39, 119, 0.35);
+  transition: transform 0.1s;
+}
+
+.judge:hover { transform: scale(1.05) rotate(-1deg); }
+.judge:active { transform: scale(0.97); }
+.judge:disabled { opacity: 0.5; cursor: default; transform: none; }
+
+.hint { margin: 0; color: var(--muted); font-size: 13px; text-align: center; }
+
+aside { display: flex; flex-direction: column; gap: 16px; }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.panel h2 { margin: 0 0 10px; font-size: 16px; }
+.muted { color: var(--muted); font-weight: 400; }
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th { text-align: left; color: var(--muted); font-weight: 500; font-size: 12px; padding: 4px 6px; }
+td { padding: 5px 6px; border-top: 1px solid var(--line); }
+td.name { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+td.empty { color: var(--muted); text-align: center; font-style: italic; }
+
+.verdict {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 10;
+}
+
+.verdict[hidden] { display: none; }
+
+.meme {
+  width: min(460px, 100%);
+  padding: 20px 20px 18px;
+  text-align: center;
+  background: #050505;
+  border: 3px solid #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 60px rgba(167, 139, 250, 0.35);
+  animation: pop 0.25s ease-out;
+}
+
+@keyframes pop {
+  from { transform: scale(0.6) rotate(-6deg); opacity: 0; }
+}
+
+.meme-text {
+  font-family: Impact, "Anton", "Arial Narrow Bold", "Arial Black", sans-serif;
+  font-size: clamp(24px, 7vw, 38px);
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #fff;
+  -webkit-text-stroke: 1.5px #000;
+  text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000;
+  overflow-wrap: anywhere;
+}
+
+.meme-emoji { font-family: var(--emoji); font-size: 110px; line-height: 1.2; margin: 6px 0; }
+.meme-stats { margin-top: 14px; color: var(--muted); font-size: 14px; }
+.meme button { margin-top: 14px; padding: 8px 22px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cell.wrong, .meme { animation: none; }
+  .judge, .judge:hover { transition: none; transform: none; }
+}

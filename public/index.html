@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Emoji Sudoku</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%BF%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Emoji Sudoku <span class="logo">🗿</span></h1>
+    <div class="controls">
+      <label>Size <select id="size"></select></label>
+      <label>Emojis <select id="theme"></select></label>
+      <label>Name <input id="name" maxlength="24" placeholder="Anonymous" autocomplete="off"></label>
+      <button id="new" type="button">New game</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="play">
+      <div class="status">
+        <span id="timer">00:00</span>
+        <span id="info"></span>
+      </div>
+      <div id="board" class="board" aria-label="Sudoku board"></div>
+      <div id="palette" class="palette"></div>
+      <button id="judge" class="judge" type="button">Judge me</button>
+      <p class="hint">Click a cell, then an emoji. Arrow keys move, 1-9 fill, Backspace clears.</p>
+    </section>
+
+    <aside>
+      <section class="panel">
+        <h2>Hall of Fame <span id="lb-size" class="muted"></span></h2>
+        <table>
+          <thead><tr><th>#</th><th>Name</th><th>Time</th><th>Judged</th></tr></thead>
+          <tbody id="top"></tbody>
+        </table>
+      </section>
+      <section class="panel">
+        <h2>Recent victims</h2>
+        <table>
+          <thead><tr><th>Name</th><th>Size</th><th>Time</th><th>When</th></tr></thead>
+          <tbody id="recent"></tbody>
+        </table>
+      </section>
+    </aside>
+  </main>
+
+  <div id="verdict" class="verdict" hidden>
+    <div class="meme" role="dialog" aria-modal="true" aria-labelledby="v-top">
+      <div id="v-top" class="meme-text"></div>
+      <div id="v-emoji" class="meme-emoji"></div>
+      <div id="v-bottom" class="meme-text"></div>
+      <div id="v-stats" class="meme-stats"></div>
+      <button id="v-close" type="button">Fine 😤</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
